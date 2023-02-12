@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/shopping-cart/static/css/main.67706160.css",
+    "main.js": "/shopping-cart/static/js/main.5fdaebfc.js",
+    "static/media/kitten-mittens.png": "/shopping-cart/static/media/kitten-mittens.b125e41e2112001be26c.png",
+    "static/media/chardee-macdenis.png": "/shopping-cart/static/media/chardee-macdenis.b99a26cbfa7f85597d43.png",
+    "static/media/shot-gun.jpg": "/shopping-cart/static/media/shot-gun.641310b426da40acfe8a.jpg",
+    "static/media/paddys-pub.jpeg": "/shopping-cart/static/media/paddys-pub.ed2b4fdcff334780a1b1.jpeg",
+    "static/media/devito.png": "/shopping-cart/static/media/devito.443050a0da20d2b6707d.png",
+    "static/media/fight-milk.jpg": "/shopping-cart/static/media/fight-milk.6bf2c45311b89eccf04d.jpg",
+    "static/media/gun-shot.jpg": "/shopping-cart/static/media/gun-shot.639799cf2894e4c7bbd6.jpg",
+    "static/media/paddys-egg.jpg": "/shopping-cart/static/media/paddys-egg.b537d874e04c45a1657d.jpg",
+    "static/media/dick-towel.jpg": "/shopping-cart/static/media/dick-towel.846fa9d56c374c157a73.jpg",
+    "static/media/paddys-thong.jpg": "/shopping-cart/static/media/paddys-thong.72e7cf9d483629914530.jpg",
+    "static/media/dress.jpg": "/shopping-cart/static/media/dress.9a0bbbc2698ec4a61f28.jpg",
+    "static/media/nudie-pen.webp": "/shopping-cart/static/media/nudie-pen.156008b946772d122510.webp",
+    "static/media/dee.jpeg": "/shopping-cart/static/media/dee.24fa8a9cbba81d03989d.jpeg",
+    "static/media/dennis.jpeg": "/shopping-cart/static/media/dennis.78739806817ef71d6bf6.jpeg",
+    "static/media/charlie.jpeg": "/shopping-cart/static/media/charlie.ee2796e6d787901becfe.jpeg",
+    "static/media/mac.jpeg": "/shopping-cart/static/media/mac.ab4c2ca6dee1104baeff.jpeg",
+    "static/media/frank-reynolds.jpeg": "/shopping-cart/static/media/frank-reynolds.c3b118b84e9973c4acf0.jpeg",
+    "static/media/github.svg": "/shopping-cart/static/media/github.550985caaa8859d4b95ffb977ce9d9af.svg",
+    "index.html": "/shopping-cart/index.html",
+    "main.67706160.css.map": "/shopping-cart/static/css/main.67706160.css.map",
+    "main.5fdaebfc.js.map": "/shopping-cart/static/js/main.5fdaebfc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.67706160.css",
+    "static/js/main.5fdaebfc.js"
+  ]
+}
