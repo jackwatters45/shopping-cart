@@ -1,6 +1,10 @@
 # shopping-cart
 
-- clean up footer and nav + add css for entire app (keep basic)
-- start on the home page - add some products (get content from restaurant page but basically merch)
-- deal with the cart
-- product pages
+Create this on and then use some actual products...
+
+Eventually
+
+- Real product version (use Fake Store API - <https://fakestoreapi.com/docs>)
+- some pages not responsive when screen is small
+- save for later feature
+- add a sidebar where you can filter products
