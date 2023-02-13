@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Icon from '@mdi/react';
 import { mdiCart } from '@mdi/js';
+import PropTypes from 'prop-types';
 
 const NavContainer = styled.nav`
   display: grid;
@@ -61,6 +62,10 @@ const Nav = (props) => {
       </NavPages>
     </NavContainer>
   );
+};
+
+Nav.propTypes = {
+  cartSize: PropTypes.number,
 };
 
 export default Nav;

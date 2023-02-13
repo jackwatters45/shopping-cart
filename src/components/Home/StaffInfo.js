@@ -28,7 +28,7 @@ const StaffRole = styled.p`
 `;
 
 const StaffInfo = ({ staffData }) => (
-  <StaffMember>
+  <StaffMember key={staffData.name}>
     <StaffImg src={staffData.img} alt={staffData.name} />
     <StaffName>{staffData.name}</StaffName>
     <StaffRole>{staffData.role}</StaffRole>
