@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import QuantityInput from '../utils/QuantityInput';
 import useQuantity from '../utils/useQuantity';
+import { CartContext } from '../../App';
 
 const CheckoutItemContainer = styled.div`
   padding: 20px 15px;
@@ -55,12 +56,24 @@ const QuantitySection = styled.div`
   align-items: flex-start;
 `;
 
-const CheckoutItem = ({ product, removeFromCart, changeQuantity }) => {
-  const { img, name, quantity, price, id } = product;
-  const total = price * quantity;
+const CheckoutItem = ({ product }) => {
+  const { img, name, quantity: itemQuantity, price, id } = product;
+  const total = (price * itemQuantity).toFixed(2);
 
-  const { currentQuantity, handleChange, increment, decrement } =
-    useQuantity(quantity);
+  const { cart, setCart } = useContext(CartContext);
+  const removeFromCart = (id) => setCart(cart.filter((prod) => prod.id !== id));
+  const changeQuantity = (value, id) => {
+    if (!value) return removeFromCart(id);
+
+    let cartCopy = [...cart];
+    const product = cartCopy.find((prod) => prod.id === id);
+    product.itemQuantity = value;
+
+    setCart(cartCopy);
+  };
+
+  const { quantity, handleChange, increment, decrement } =
+    useQuantity(itemQuantity);
 
   return (
     <CheckoutItemContainer key={id}>
@@ -75,14 +88,14 @@ const CheckoutItem = ({ product, removeFromCart, changeQuantity }) => {
         </StyledLink>
         <QuantitySection>
           <QuantityInput
-            currentQuantity={currentQuantity}
+            quantity={quantity}
             handleChange={handleChange}
             increment={increment}
             decrement={decrement}
           />
           <StyledBtn
             style={{ marginLeft: '20px' }}
-            onClick={() => changeQuantity(currentQuantity, id)}
+            onClick={() => changeQuantity(quantity, id)}
           >
             Update
           </StyledBtn>
@@ -94,7 +107,7 @@ const CheckoutItem = ({ product, removeFromCart, changeQuantity }) => {
           Remove
         </StyledBtn>
       </ItemInfo>
-      <div style={{ fontSize: '24px' }}>Total: {total}</div>
+      <div style={{ fontSize: '24px' }}>Total: ${total}</div>
     </CheckoutItemContainer>
   );
 };

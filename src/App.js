@@ -6,7 +6,7 @@ import Cart from './components/Cart/Cart';
 import Home from './components/Home/Home';
 import Merch from './components/Merch/Merch';
 import MerchItem from './components/MerchItem/MerchItem';
-import { useEffect, useState } from 'react';
+import { useState, createContext } from 'react';
 import Menu from './components/Menu/Menu';
 import styled from 'styled-components';
 import paddysPub from './assets/imgs/paddys-pub.jpeg';
@@ -26,61 +26,27 @@ const MainContentContainer = styled.div`
   background-size: cover;
 `;
 
+// Normally do this in separate file but keeping here for learning purposes
+export const CartContext = createContext({});
+
 const App = () => {
   const [cart, setCart] = useState([]);
-  const removeFromCart = (id) => setCart(cart.filter((prod) => prod.id !== id));
-  const addToCart = (product) => {
-    let cartCopy = [...cart];
-
-    const findOther = cartCopy.find((prod) => prod.id === product.id);
-    if (!findOther) {
-      return setCart([...cart, product]);
-    }
-    findOther.quantity = findOther.quantity + product.quantity;
-
-    setCart(cartCopy);
-  };
-
-  const changeQuantity = (value, id) => {
-    if (!value) return removeFromCart(id);
-
-    let cartCopy = [...cart];
-    const product = cartCopy.find((prod) => prod.id === id);
-    product.quantity = value;
-
-    setCart(cartCopy);
-  };
-
-  const [cartSize, setCartSize] = useState();
-  useEffect(() => {
-    setCartSize(cart.reduce((acc, el) => acc + el.quantity, 0));
-  }, [cart]);
 
   return (
     <BrowserRouter>
       <AppContainer>
-        <Nav cartSize={cartSize} />
-        <MainContentContainer>
-          <Routes>
-            <Route path="/shopping-cart/" element={<Home />} />
-            <Route path="/shopping-cart/merch" element={<Merch />} />
-            <Route path="/shopping-cart/menu" element={<Menu />} />
-            <Route
-              path="/shopping-cart/cart"
-              element={
-                <Cart
-                  cart={cart}
-                  removeFromCart={removeFromCart}
-                  changeQuantity={changeQuantity}
-                />
-              }
-            />
-            <Route
-              path="/shopping-cart/merch/:id"
-              element={<MerchItem addToCart={addToCart} />}
-            />
-          </Routes>
-        </MainContentContainer>
+        <CartContext.Provider value={{ cart, setCart }}>
+          <Nav />
+          <MainContentContainer>
+            <Routes>
+              <Route path="/shopping-cart/" element={<Home />} />
+              <Route path="/shopping-cart/merch" element={<Merch />} />
+              <Route path="/shopping-cart/menu" element={<Menu />} />
+              <Route path="/shopping-cart/cart" element={<Cart />} />
+              <Route path="/shopping-cart/merch/:id" element={<MerchItem />} />
+            </Routes>
+          </MainContentContainer>
+        </CartContext.Provider>
         <Footer />
       </AppContainer>
     </BrowserRouter>
@@ -88,11 +54,3 @@ const App = () => {
 };
 
 export default App;
-
-// .app {
-
-// }
-
-// .mainContent {
-
-// }

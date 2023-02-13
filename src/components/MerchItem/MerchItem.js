@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import products from '../../assets/data/products';
 import QuantityInput from '../utils/QuantityInput';
 import useQuantity from '../utils/useQuantity';
 import styled from 'styled-components';
+import { CartContext } from '../../App';
 
 const ProductInfo = styled.div`
   display: flex;
@@ -40,7 +41,7 @@ const Product = styled.div`
   gap: 50px;
 `;
 
-const MerchItem = ({ addToCart }) => {
+const MerchItem = () => {
   const { id } = useParams();
   const product = products.find((e) => e.id === id);
   const { name, img, desc, price } = product;
@@ -48,10 +49,20 @@ const MerchItem = ({ addToCart }) => {
   const { quantity, setQuantity, handleChange, increment, decrement } =
     useQuantity(1);
 
-  const handleAddToCart = () => {
-    addToCart({ ...product, quantity });
+  const { cart, setCart } = useContext(CartContext);
+  const addToCart = () => {
+    let cartCopy = [...cart];
+
+    const findOther = cartCopy.find((prod) => prod.id === product.id);
+
+    if (!findOther) setCart([...cart, { ...product, quantity }]);
+    else {
+      findOther.quantity = findOther.quantity + quantity;
+      setCart(cartCopy);
+    }
     setQuantity(1);
   };
+
   return (
     <Product>
       <img src={img} alt={name} style={{ width: '360px' }} />
@@ -70,7 +81,7 @@ const MerchItem = ({ addToCart }) => {
             decrement={decrement}
           />
         </QuantitySection>
-        <AddToCartBtn onClick={handleAddToCart}>Add to cart</AddToCartBtn>
+        <AddToCartBtn onClick={addToCart}>Add to cart</AddToCartBtn>
       </ProductInfo>
     </Product>
   );

@@ -1,10 +1,11 @@
 import devito from '../../assets/imgs/devito.png';
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import styled from 'styled-components';
 import Icon from '@mdi/react';
 import { mdiCart } from '@mdi/js';
 import PropTypes from 'prop-types';
+import { CartContext } from '../../App';
 
 const NavContainer = styled.nav`
   display: grid;
@@ -43,7 +44,13 @@ const CartSize = styled.span`
   font-size: 14px;
 `;
 
-const Nav = (props) => {
+const Nav = () => {
+  const { cart } = useContext(CartContext);
+  const [cartSize, setCartSize] = useState();
+  useEffect(() => {
+    setCartSize(cart.reduce((acc, el) => acc + el.quantity, 0));
+  }, [cart]);
+
   return (
     <NavContainer>
       <Link to="/shopping-cart/">
@@ -55,7 +62,7 @@ const Nav = (props) => {
       <NavPages>
         <CartLink to="/shopping-cart/cart">
           <Icon path={mdiCart} size={1.5} />
-          <CartSize>{props.cartSize}</CartSize>
+          <CartSize>{cartSize}</CartSize>
         </CartLink>
         <Link to="/shopping-cart/merch">Merch</Link>
         <Link to="/shopping-cart/menu">Menu</Link>

@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CheckoutItem from './CheckoutItem';
 import styled from 'styled-components';
 import discountCodes from '../../assets/data/discountCodes';
 import Icon from '@mdi/react';
 import { mdiSale } from '@mdi/js';
+import { CartContext } from '../../App';
 
 const CartContainer = styled.div`
   display: flex;
@@ -96,20 +97,13 @@ const EmptyCart = styled.div`
   }
 `;
 
-const Cart = ({ cart, removeFromCart, changeQuantity }) => {
-  const [subtotal, setSubtotal] = useState(0);
-  useEffect(
-    () =>
-      setSubtotal(
-        cart.reduce((acc, el) => acc + el.price * el.quantity, 0).toFixed(2),
-      ),
-    [cart],
-  );
+const Cart = () => {
+  const { cart } = useContext(CartContext);
 
-  const [discountInput, setDiscountInput] = useState();
-  const [discountCode, setDiscountCode] = useState('');
-  const [discount, setDiscount] = useState(0);
+  const [discountInput, setDiscountInput] = useState('');
   const handleChangeDiscountInput = (e) => setDiscountInput(e.target.value);
+
+  const [discount, setDiscount] = useState({ discount: 0, code: '' });
   const handleSubmitDiscountCode = (e) => {
     e.preventDefault();
     setDiscountInput('');
@@ -118,16 +112,24 @@ const Cart = ({ cart, removeFromCart, changeQuantity }) => {
     );
     if (!coupon) return;
 
-    setDiscountCode(coupon.code);
-
-    if (coupon.type === 'flatRate') setDiscount(coupon.discount);
-    const percentageDiscount = ((coupon.discount * subtotal) / 100).toFixed(2);
-    setDiscount(percentageDiscount);
+    const discountAmount =
+      coupon.type === 'flatRate'
+        ? coupon.discount
+        : ((coupon.discount * subtotal) / 100).toFixed(2);
+    setDiscount({ code: coupon.code, discount: discountAmount });
   };
 
+  const [subtotal, setSubtotal] = useState(0);
+  useEffect(
+    () =>
+      setSubtotal(
+        cart.reduce((acc, el) => acc + el.price * el.quantity, 0).toFixed(2),
+      ),
+    [cart],
+  );
   const [total, setTotal] = useState(subtotal);
   useEffect(() => {
-    setTotal(subtotal - discount);
+    setTotal(subtotal - discount.discount);
   }, [subtotal, discount]);
 
   return cart.length ? (
@@ -135,11 +137,7 @@ const Cart = ({ cart, removeFromCart, changeQuantity }) => {
       <CartHeader>Cart</CartHeader>
       <CartProductsContainer>
         {cart.map((product) => (
-          <CheckoutItem
-            product={product}
-            removeFromCart={removeFromCart}
-            changeQuantity={changeQuantity}
-          />
+          <CheckoutItem product={product} />
         ))}
       </CartProductsContainer>
       <MoneyTotals>
@@ -156,13 +154,13 @@ const Cart = ({ cart, removeFromCart, changeQuantity }) => {
         </DiscountSection>
         <div>Subtotal: ${subtotal}</div>
         <DiscountSummary>
-          {discountCode && (
+          {discount.code && (
             <DiscountLabel>
               <Icon path={mdiSale} size={0.7} />
-              <div>{discountCode}</div>
+              <div>{discount.code}</div>
             </DiscountLabel>
           )}
-          <div>Discount: ${discount}</div>
+          <div>Discount: ${discount.discount}</div>
         </DiscountSummary>
         <div>Total: ${total}</div>
         <CheckoutBtn value="Checkout" type="submit" />
