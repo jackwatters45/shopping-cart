@@ -23,12 +23,7 @@ const Quantity = styled.div`
   align-items: center;
 `;
 
-const QuantityInput = ({
-  quantity,
-  handleChange,
-  increment,
-  decrement,
-}) => (
+const QuantityInput = ({ quantity, handleChange, increment, decrement }) => (
   <Quantity>
     <Icon onClick={decrement} path={mdiMinus} size={1} />
     <Input id="quantity" value={quantity} onChange={handleChange} />
